@@ -1,20 +1,19 @@
 class Solution {
 
     public String clearDigits(String s) {
-        int i = 0;
-        int l = s.length();
+        StringBuilder sb = new StringBuilder();
 
-        StringBuilder sb = new StringBuilder(s);
-        while (i < sb.length()) {
-            char ch = sb.charAt(i);
+        for (char ch : s.toCharArray()) {
             if (Character.isDigit(ch)) {
-                sb.deleteCharAt(i);
-                sb.deleteCharAt(i - 1);
-                i--;
+                if (sb.length() > 0) {
+                    sb.deleteCharAt(sb.length() - 1); // Remove last character
+                }
             } else {
-                i++;
+                sb.append(ch);
             }
         }
+
         return sb.toString();
     }
+
 }
