@@ -1,24 +1,22 @@
 class Solution {
     public int maximumSum(int[] nums) {
-        Map<Integer, PriorityQueue<Integer>> mp = new TreeMap<>();
-        int max = -1;
+        int[] mp = new int[82];
+        // Max possible digit sum occurs when 999999999 === 9+9+9+9+9+9+9+9+9 = **81**
+        Arrays.fill(mp, -1);
+        int ans = -1;
 
-        for (int i : nums) {
-            int sum = 0;
-            int num = i;
-            while (num > 0) {
-                sum += num % 10;
-                num /= 10;
+        for (int num : nums) {
+            int sumDigits = 0, temp = num;
+            while (temp > 0) {
+                sumDigits += temp % 10;
+                temp /= 10;
             }
-            if (!mp.containsKey(sum)) {
-                mp.put(sum, new PriorityQueue<>((a, b) -> b - a));
-            } else {
-                if (!mp.get(sum).isEmpty()) {
-                    max = Math.max(max, mp.get(sum).peek() + i);
-                }
-            }
-            mp.get(sum).add(i);
+
+            if (mp[sumDigits] != -1)
+                ans = Math.max(ans, num + mp[sumDigits]);
+
+            mp[sumDigits] = Math.max(mp[sumDigits], num);
         }
-        return max;
+        return ans;
     }
 }
