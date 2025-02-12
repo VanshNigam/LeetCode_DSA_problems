@@ -1,20 +1,22 @@
 class Solution {
     public int maximumSum(int[] nums) {
         Map<Integer, PriorityQueue<Integer>> mp = new TreeMap<>();
-
         int max = -1;
 
         for (int i : nums) {
-            StringBuilder s = new StringBuilder(String.valueOf(i));
             int sum = 0;
-            for (char c : s.toString().toCharArray()) {
-                int x = Character.getNumericValue(c);
-                sum += x;
+            int num = i;
+            while (num > 0) {
+                sum += num % 10;
+                num /= 10;
             }
-            if (!mp.containsKey(sum))
+            if (!mp.containsKey(sum)) {
                 mp.put(sum, new PriorityQueue<>((a, b) -> b - a));
-            else
-                max = Math.max(max, mp.get(sum).peek() + i);
+            } else {
+                if (!mp.get(sum).isEmpty()) {
+                    max = Math.max(max, mp.get(sum).peek() + i);
+                }
+            }
             mp.get(sum).add(i);
         }
         return max;
