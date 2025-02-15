@@ -15,12 +15,12 @@ class Solution {
             } else {
                 secondMin = Math.min(len, secondMin);
             }
-        }   
+        }
 
-        for(int len : minLens.values()) {
-            if(len < secondMin) {
+        for (int len : minLens.values()) {
+            if (len < secondMin) {
                 count++;
-            } 
+            }
         }
 
         return count;
