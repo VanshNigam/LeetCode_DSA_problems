@@ -1,30 +1,28 @@
 class Solution {
     public int maxPointsInsideSquare(int[][] points, String s) {
-        TreeMap<Integer, StringBuilder> mpp = new TreeMap<>();
-        int ma = 0;
+        HashMap<Character, Integer> minLens = new HashMap<>();
+        int secondMin = Integer.MAX_VALUE, count = 0;
 
         for (int i = 0; i < points.length; ++i) {
-            int x = Math.abs(points[i][0]);
-            int y = Math.abs(points[i][1]);
-            int dist = Math.max(x, y);
-            mpp.putIfAbsent(dist, new StringBuilder());
-            mpp.get(dist).append(s.charAt(i));
+            int len = Math.max(Math.abs(points[i][0]), Math.abs(points[i][1]));
+            char c = s.charAt(i);
+
+            if (!minLens.containsKey(c)) {
+                minLens.put(c, len);
+            } else if (len < minLens.get(c)) {
+                secondMin = Math.min(minLens.get(c), secondMin);
+                minLens.put(c, len);
+            } else {
+                secondMin = Math.min(len, secondMin);
+            }
+        }   
+
+        for(int len : minLens.values()) {
+            if(len < secondMin) {
+                count++;
+            } 
         }
 
-        int[] count = new int[26];
-        for (Map.Entry<Integer, StringBuilder> entry : mpp.entrySet()) {
-            boolean flag = true;
-            for (char ch : entry.getValue().toString().toCharArray()) {
-                count[ch - 'a']++;
-                if (count[ch - 'a'] > 1) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                ma += entry.getValue().length();
-            } else break;
-        }
-        return ma;
+        return count;
     }
 }
