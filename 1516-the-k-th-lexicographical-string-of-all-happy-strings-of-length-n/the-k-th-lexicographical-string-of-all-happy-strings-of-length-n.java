@@ -1,26 +1,33 @@
 class Solution {
-    private String ans = "";
+    int count;
+    String ans;
 
-    private void solve(int len, int[] cnt, int n, char[] chars, StringBuilder s) {
-        if (len == n) {
-            if (--cnt[0] == 0) {
-                ans = s.toString();
+    public boolean backTrack(int n, int k, StringBuilder cur) {
+        // base case
+        if (n == cur.length()) {
+            count++;
+            if (count == k) {
+                ans = cur.toString();
+                return true;
             }
-            return;
+            return false;
         }
-        for (char c : chars) {
-            if (len == 0 || s.charAt(len - 1) != c) {
-                s.append(c);
-                solve(len + 1, cnt, n, chars, s);
-                s.deleteCharAt(s.length() - 1);
-                if (cnt[0] == 0) return; // Stop recursion early
-            }
+        for (char ch = 'a'; ch <= 'c'; ch++) {
+            int l = cur.length();
+            if (l > 0 && cur.charAt(l - 1) == ch)
+                continue;
+            cur.append(ch);
+            if (backTrack(n, k, cur))
+                return true;
+            cur.deleteCharAt(l);
         }
+        return false;
     }
 
     public String getHappyString(int n, int k) {
+        count = 0;
         ans = "";
-        solve(0, new int[]{k}, n, new char[]{'a', 'b', 'c'}, new StringBuilder());
+        backTrack(n, k, new StringBuilder(""));
         return ans;
     }
 }
