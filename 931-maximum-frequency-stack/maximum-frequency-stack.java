@@ -17,9 +17,10 @@ class FreqStack {
     }
 
     public int pop() {
-        int max=st_each_freq.get(maxfr).pop();
-        frq.put(max,maxfr-1);
-        if(st_each_freq.get(maxfr).size()==0)maxfr--;
+        int max = st_each_freq.get(maxfr).pop();
+        frq.put(max, maxfr - 1);
+        if (st_each_freq.get(maxfr).size() == 0)
+            maxfr--;
         return max;
     }
 }
