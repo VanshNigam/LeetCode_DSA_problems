@@ -29,9 +29,6 @@ class Solution {
                 r = mid - 1;
             }
         }
-
-        System.out.println(pos);
-        System.out.println(neg);
         return Math.max(n - pos, neg);
     }
 }
