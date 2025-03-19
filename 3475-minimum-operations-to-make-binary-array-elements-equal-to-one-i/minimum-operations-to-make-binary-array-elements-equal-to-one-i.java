@@ -7,9 +7,9 @@ class Solution {
                 c++;
                 if (i + 1 >= n || i + 2 >= n)
                     return -1;
-                nums[i] = 1;
-                nums[i + 1] = nums[i + 1] == 1 ? 0 : 1;
-                nums[i + 2] = nums[i + 2] == 1 ? 0 : 1;
+                nums[i] ^= 1;
+                nums[i + 1] ^= 1;
+                nums[i + 2] ^=  1;
             }
         }
         return c;
