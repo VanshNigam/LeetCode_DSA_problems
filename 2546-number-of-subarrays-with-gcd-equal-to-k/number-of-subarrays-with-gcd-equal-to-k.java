@@ -15,11 +15,11 @@ class Solution {
 
         for (int i = 0; i < nums.length; i++) {
             int g = nums[i];
+            if(nums[i]<k )continue; //extra checks
             if (g == k)
                 c++;
             for (int j = i + 1; j < nums.length; j++) {
-                if (g < k)
-                    break;
+                if (g < k)break; //extra checks
                 g = gcd(g, nums[j]);
 
                 if (g == k)
