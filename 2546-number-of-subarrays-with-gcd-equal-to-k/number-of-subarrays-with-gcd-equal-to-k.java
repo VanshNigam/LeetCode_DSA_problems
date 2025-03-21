@@ -18,12 +18,12 @@ class Solution {
             if (g == k)
                 c++;
             for (int j = i + 1; j < nums.length; j++) {
+                if (g < k)
+                    break;
                 g = gcd(g, nums[j]);
 
                 if (g == k)
                     c++;
-                if (g < k)
-                    break;
             }
         }
         return c;
