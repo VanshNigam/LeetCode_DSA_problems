@@ -1,28 +1,34 @@
 class Solution {
     public int minimumIndex(List<Integer> nums) {
-        int n = nums.size(), count = 0, res = 0, target = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
+        int n = nums.size();
 
-        for(int num : nums) {
-            int cur = map.getOrDefault(num, 0) + 1;
-            map.put(num, cur);
-            if(cur > count) {
-                target = num;
-                count = cur;
-            }
+        int el = nums.get(0);
+        int c = 0;
+
+        for (int i = 1; i < n; i++) {
+            int x = nums.get(i);
+            if (c == 0) {
+                c = 1;
+                el = x;
+            } else if (x == el)
+                c += 1;
+            else if (x != el)
+                c -= 1;
         }
+        c = 0;
+        for (int a : nums)
+            if (a == el)
+                c += 1;
 
-        int left = 0;
-        for(int i = 0; i < n; i++) {
-            if(nums.get(i) == target) {
-                left++;
-            }
-            
-            if(left * 2 > (i + 1) && (count - left) * 2 > (n - i - 1)) {
+        int curr = 0;
+        for (int i = 0; i < n; i++) {
+            int x = nums.get(i);
+            if (el == x)
+                curr += 1;
+            if ((curr > (i + 1) / 2) && (c - curr) > (n - i - 1) / 2) {
                 return i;
             }
         }
-
         return -1;
     }
 }
