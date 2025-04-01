@@ -11,14 +11,12 @@ class Solution {
 
     public int rob(int[] nums) {
         int n = nums.length;
-        if (n == 1)
-            return nums[0]; // Edge case: Only one house
-        if (n == 2)
-            return Math.max(nums[0], nums[1]); // Edge case: Only one house
+        if (n == 1) return nums[0]; // Edge case: Only one house
+        if (n == 2) return Math.max(nums[0],nums[1]); // Edge case: Only one house
 
         int dp[] = new int[nums.length];
         Arrays.fill(dp, -1);
-        int removeFirst = help(Arrays.copyOfRange(nums, 0, n), 1, dp);
+        int removeFirst = help(Arrays.copyOfRange(nums, 1, n), 0, dp);
 
         Arrays.fill(dp, -1);
         int removeLast = help(Arrays.copyOfRange(nums, 0, n - 1), 0, dp);
