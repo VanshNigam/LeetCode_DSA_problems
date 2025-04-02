@@ -1,5 +1,4 @@
 class Solution {
-
     public long maximumTripletValue(int[] nums) {
         int n = nums.length;
         long res = 0, imax = 0, dmax = 0;
