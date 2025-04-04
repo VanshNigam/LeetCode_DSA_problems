@@ -1,18 +1,13 @@
 class Solution {
     public TreeNode help(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null)
-            return null;
-        if (root == p || root == q)
-            return root;
+        if(root==null || root==p ||root==q)return root;
+        TreeNode left=help(root.left,p,q);
+        TreeNode right=help(root.right,p,q);
 
-        TreeNode l = help(root.left, p, q);
-        TreeNode r = help(root.right, p, q);
-
-        if (l != null && r != null)
-            return root;
-        else if (l != null)
-            return l;
-        return r;
+        if(left==null)return right;
+        if(right==null)return left;
+        // if both not null
+        return root;
     }
 
     public TreeNode lcaDeepestLeaves(TreeNode root) {
