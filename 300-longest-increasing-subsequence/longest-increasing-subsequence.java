@@ -69,21 +69,49 @@
 // }
 
 // -------------------4th solution
+// class Solution {
+//     public int lengthOfLIS(int[] nums) {
+//         int n = nums.length;
+//         int dp[] = new int[n];
+//         Arrays.fill(dp, 1); //min LIS =1 for all
+//         int ans = 1;
+
+//         for (int i = 1; i < n; i++) {
+//             for (int prev = 0; prev < i; prev++) {
+//                 if (nums[prev] < nums[i]) {
+//                     dp[i] = Math.max(dp[i], 1 + dp[prev]);
+//                 }
+//             }
+//             ans = Math.max(ans, dp[i]);
+//         }
+//         return ans;
+//     }
+// }
+
+//----------------------5th approach best-----------
+
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        int dp[] = new int[n];
-        Arrays.fill(dp, 1); //min LIS =1 for all
-        int ans = 1;
+        ArrayList<Integer> arr = new ArrayList<>();
 
-        for (int i = 1; i < n; i++) {
-            for (int prev = 0; prev < i; prev++) {
-                if (nums[prev] < nums[i]) {
-                    dp[i] = Math.max(dp[i], 1 + dp[prev]);
+        arr.add(nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > arr.get(arr.size() - 1)) {
+                arr.add(nums[i]);
+            } else {
+                int l = 0;
+                int r = arr.size();
+                while (l < r) {
+                    int mid = (l + r) / 2;
+                    if (arr.get(mid) >= nums[i])
+                        r = mid;
+                    else
+                        l = mid + 1;
                 }
+                arr.set(l, nums[i]);
             }
-            ans = Math.max(ans, dp[i]);
         }
-        return ans;
+        return arr.size();
     }
 }
