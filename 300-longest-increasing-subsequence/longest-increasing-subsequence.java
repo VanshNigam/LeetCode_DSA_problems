@@ -92,9 +92,8 @@
 
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
+        
         ArrayList<Integer> arr = new ArrayList<>();
-
         arr.add(nums[0]);
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] > arr.get(arr.size() - 1)) {
