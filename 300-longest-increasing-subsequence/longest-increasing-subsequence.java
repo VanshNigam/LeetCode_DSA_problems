@@ -45,24 +45,45 @@
 //     }
 // }
 
+//-------------------3rd solution
+// class Solution {
+//     public int lengthOfLIS(int[] nums) {
+//         int next[]= new int[nums.length+1];
+//         int curr[]= new int[nums.length+1];
+
+//         int n = nums.length;
+//         for (int i = n - 1; i >= 0; i--) {
+//             for (int prev = i - 1; prev >= -1; prev--) {
+//                 int len = 0 + next[prev + 1];
+
+//                 if (prev == -1 || nums[i] > nums[prev])
+//                     len = Math.max(len, 1 + next[i + 1]);
+
+//                 curr[prev + 1] = len;
+
+//             }
+//             next=curr;
+//         }
+//         return next[-1 + 1];
+//     }
+// }
+
+// -------------------4th solution
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int next[]= new int[nums.length+1];
-        int curr[]= new int[nums.length+1];
-
         int n = nums.length;
-        for (int i = n - 1; i >= 0; i--) {
-            for (int prev = i - 1; prev >= -1; prev--) {
-                int len = 0 + next[prev + 1];
+        int dp[] = new int[n];
+        Arrays.fill(dp,1); //min LIS =1 for all
+        int ans = 1;
 
-                if (prev == -1 || nums[i] > nums[prev])
-                    len = Math.max(len, 1 + next[i + 1]);
-
-                curr[prev + 1] = len;
-
+        for (int i = 0; i < n; i++) {
+            for (int prev = 0; prev < i; prev++) {
+                if (nums[prev] < nums[i]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[prev]);
+                }
             }
-            next=curr;
+            ans = Math.max(ans, dp[i]);
         }
-        return next[-1 + 1];
+        return ans;
     }
 }
