@@ -90,27 +90,43 @@
 
 //----------------------5th approach best-----------
 
+// class Solution {
+//     public int lengthOfLIS(int[] nums) {
+
+//         ArrayList<Integer> arr = new ArrayList<>();
+//         arr.add(nums[0]);
+//         for (int i = 1; i < nums.length; i++) {
+//             if (nums[i] > arr.get(arr.size() - 1)) {
+//                 arr.add(nums[i]);
+//             } else {
+//                 int l = 0;
+//                 int r = arr.size();
+//                 while (l < r) {
+//                     int mid = (l + r) / 2;
+//                     if (arr.get(mid) >= nums[i])
+//                         r = mid;
+//                     else
+//                         l = mid + 1;
+//                 }
+//                 arr.set(l, nums[i]);
+//             }
+//         }
+//         return arr.size();
+//     }
+// }
+
+// ----------------------using collection 
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        
-        ArrayList<Integer> arr = new ArrayList<>();
-        arr.add(nums[0]);
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] > arr.get(arr.size() - 1)) {
-                arr.add(nums[i]);
-            } else {
-                int l = 0;
-                int r = arr.size();
-                while (l < r) {
-                    int mid = (l + r) / 2;
-                    if (arr.get(mid) >= nums[i])
-                        r = mid;
-                    else
-                        l = mid + 1;
-                }
-                arr.set(l, nums[i]);
-            }
+        List<Integer> arr = new ArrayList<>();
+
+        for (int num : nums) {
+            int idx = Collections.binarySearch(arr, num);
+            if (idx < 0) idx = -idx - 1; 
+            if (idx == arr.size()) arr.add(num);
+            else arr.set(idx, num);
         }
+
         return arr.size();
     }
 }
