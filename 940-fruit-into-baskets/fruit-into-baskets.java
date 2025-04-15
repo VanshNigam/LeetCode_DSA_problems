@@ -9,16 +9,17 @@ class Solution {
         while (l < n && r < n) {
             mp.put(arr[l], mp.getOrDefault(arr[l], 0) + 1);
 
-            while (mp.size() > 2) {
+            if (mp.size() > 2) {
                 mp.put(arr[r], mp.get(arr[r]) - 1);
                 if (mp.get(arr[r]) == 0) {
                     mp.remove(arr[r]);
                 }
                 r++;
-            }
+            } else
+                max = Math.max(max, l - r + 1);
 
-            max = Math.max(max, l - r + 1);
             l++;
+
             // System.out.println(mp);
         }
         return max;
