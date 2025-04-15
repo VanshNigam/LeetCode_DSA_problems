@@ -17,10 +17,7 @@ class Solution {
                 r++;
             } else
                 max = Math.max(max, l - r + 1);
-
             l++;
-
-            // System.out.println(mp);
         }
         return max;
     }
