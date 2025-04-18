@@ -1,27 +1,27 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
-        int n = matrix.length;
-        int m = matrix[0].length;
+            int m = matrix.length;
+        int n = matrix[0].length;
 
-        Set<Integer> row = new HashSet<>();
-        Set<Integer> col = new HashSet<>();
+        boolean[] row = new boolean[m];
+        boolean[] col = new boolean[n];
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        // Step 1: Mark the rows and cols that need to be zeroed
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (matrix[i][j] == 0) {
-                    row.add(i);
-                    col.add(j);
+                    row[i] = true;
+                    col[j] = true;
                 }
             }
         }
-        for (int i : row) {
-            for (int j = 0; j < m; j++) {
-                matrix[i][j] = 0;
-            }
-        }
-        for (int i : col) {
+
+        // Step 2: Set the marked rows and columns to zero
+        for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                matrix[j][(i)] = 0;
+                if (row[i] || col[j]) {
+                    matrix[i][j] = 0;
+                }
             }
         }
     }
