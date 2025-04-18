@@ -1,26 +1,29 @@
 class Solution {
-    public int sum(int arr[], int d) {
-        int sum = 0;
-        for (int i : arr)
-            sum += Math.ceil((double) i / d);
+    public static long divisorSum(int[] nums, int divisor){
+        int n = nums.length;
+        long sum = 0;
+        for(int i = 0; i < n ; i++){
+            // sum += Math.ceil((double)nums[i] / divisor);
+            long div = (nums[i] + (divisor - 1)) / divisor;
+            sum += div;
+        }
         return sum;
     }
-
     public int smallestDivisor(int[] nums, int threshold) {
-        int l = 1;
-        int r = (int)1e6, ans = 0;
+        int n = nums.length;
+        int low = 1;
+        // int high = Integer.MIN_VALUE;
+        // for(int i =0; i< n; i++){
+        //     if(nums[i] > high) high = nums[i];
+        // }
+        int high = (int)1e6;
 
-        while (l <= r) {
-            int mid = (l + r) / 2;
-            int sum = sum(nums, mid);
-            if (sum <= threshold) {
-                ans = mid;
-                r = mid - 1;
-            } else {
-                l = mid + 1;
-            }
-            // System.out.println(r+" : "+l);
+        while(low <= high){
+            int mid = low + (high - low) / 2;
+            long sum = divisorSum(nums, mid);
+            if(sum > threshold) low = mid + 1;
+            else high = mid -1;
         }
-        return ans;
+        return low;
     }
 }
