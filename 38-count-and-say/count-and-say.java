@@ -4,7 +4,7 @@ class Solution {
             return "1";
 
         String prev = help(n - 1);
-        String ans = "";
+        StringBuilder ans = new StringBuilder();
         char p = prev.charAt(0);
         int c = 1;
 
@@ -12,13 +12,17 @@ class Solution {
             if (p == prev.charAt(i))
                 c++;
             else {
-                ans += ("" + c + p);
+                ans.append(c);
+                ans.append(p);
                 c = 1;
                 p = prev.charAt(i);
             }
         }
-        if (c != 0)  ans += ("" + c + p);
-        return ans;
+        if (c != 0) {
+            ans.append(c);
+            ans.append(p);
+        }
+        return ans.toString();
     }
 
     public String countAndSay(int n) {
