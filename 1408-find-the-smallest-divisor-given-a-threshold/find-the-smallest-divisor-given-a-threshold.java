@@ -1,11 +1,4 @@
 class Solution {
-    public int max(int arr[]) {
-        int max = 0;
-        for (int i : arr)
-            max = Math.max(max, i);
-        return max;
-    }
-
     public int sum(int arr[], int d) {
         int sum = 0;
         for (int i : arr)
@@ -15,7 +8,7 @@ class Solution {
 
     public int smallestDivisor(int[] nums, int threshold) {
         int l = 1;
-        int r = max(nums), ans = 0;
+        int r = (int)1e6, ans = 0;
 
         while (l <= r) {
             int mid = (l + r) / 2;
