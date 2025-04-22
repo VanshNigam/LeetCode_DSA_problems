@@ -4,8 +4,8 @@ class Solution {
         int i=0;
         while(i<matrix.length && j>-1){
             if(matrix[i][j]==target)return true;
-            else if(matrix[i][j]<target)i++;
-            else j--;
+            else if(matrix[i][j]<target)i+=1;
+            else j-=1;
         }
         return false;
     }
