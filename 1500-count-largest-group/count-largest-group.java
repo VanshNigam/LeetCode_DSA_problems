@@ -1,6 +1,6 @@
 class Solution {
     public int countLargestGroup(int n) {
-        Map<Integer, Integer> mp = new HashMap<>();
+        int arr[]=new int[40];
         int c = 0;
 
         for (int i = 1; i <= n; i++) {
@@ -10,17 +10,15 @@ class Solution {
                 sum += curr % 10;
                 curr = curr / 10;
             }
-            int x = sum;
-            mp.put(x, mp.getOrDefault(x,0)+ 1);
+            arr[sum]++;
         }
 
         int max = 0;
-        for (int i1 : mp.keySet()) {
-
-            if (mp.get(i1) == max) 
+        for (int i1 : arr) {
+            if (i1 == max) 
                 c++;
-            else if (mp.get(i1) > max) {
-                max = mp.get(i1);
+            else if ((i1) > max) {
+                max = (i1);
                 c = 1;
             }
         }
