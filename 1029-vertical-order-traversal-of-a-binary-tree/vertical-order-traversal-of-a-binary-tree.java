@@ -1,26 +1,54 @@
-class Tuple {
-    TreeNode node; int row, col;
-    Tuple(TreeNode n, int r, int c) { node = n; row = r; col = c; }
-}
-
+    class Pair {
+        TreeNode node;
+        int hd, level;
+        Pair(TreeNode node, int hd, int level) {
+            this.node = node;
+            this.hd = hd;
+            this.level = level;
+        }
+    }
 class Solution {
     public List<List<Integer>> verticalTraversal(TreeNode root) {
+        // TreeMap to store: hd -> (level -> nodes sorted)
         TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
-        Queue<Tuple> q = new LinkedList<>(); q.offer(new Tuple(root, 0, 0));
+        
+        // Queue for BFS traversal (node, horizontal distance, level)
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root, 0, 0)); // root at hd = 0, level = 0
+
         while (!q.isEmpty()) {
-            Tuple t = q.poll();
-            map.computeIfAbsent(t.row, x -> new TreeMap<>())
-               .computeIfAbsent(t.col, y -> new PriorityQueue<>())
-               .offer(t.node.val);
-            if (t.node.left != null) q.offer(new Tuple(t.node.left, t.row - 1, t.col + 1));
-            if (t.node.right != null) q.offer(new Tuple(t.node.right, t.row + 1, t.col + 1));
+            Pair p = q.poll();
+            TreeNode node = p.node;
+            int hd = p.hd, level = p.level;
+
+            // Create map entries if not exist
+            map.putIfAbsent(hd, new TreeMap<>());
+            map.get(hd).putIfAbsent(level, new PriorityQueue<>());
+
+            // Add node value into map
+            map.get(hd).get(level).offer(node.val);
+
+            // Traverse left and right children with updated hd and level
+            if (node.left != null) q.offer(new Pair(node.left, hd - 1, level + 1));
+            if (node.right != null) q.offer(new Pair(node.right, hd + 1, level + 1));
         }
-        List<List<Integer>> ans = new ArrayList<>();
-        map.values().forEach(ys -> {
-            List<Integer> temp = new ArrayList<>();
-            ys.values().forEach(pq -> { while (!pq.isEmpty()) temp.add(pq.poll()); });
-            ans.add(temp);
-        });
-        return ans;
+
+        // Prepare final result
+        List<List<Integer>> result = new ArrayList<>();
+        for (Integer hd : map.keySet()) {
+            List<Integer> col = new ArrayList<>();
+            
+            for (Integer level : map.get(hd).keySet()) {
+                PriorityQueue<Integer> pq = map.get(hd).get(level);
+                
+                while (!pq.isEmpty()) {
+                    col.add(pq.poll());
+                }
+            }
+            result.add(col);
+        }
+        return result;
     }
+
+    // Pair class to hold node with its horizontal distance and level
 }
