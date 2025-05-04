@@ -1,19 +1,16 @@
 class Solution {
-    public int numEquivDominoPairs(int[][] arr) {
-        Map<Integer, Integer> mp = new HashMap<>();
-
-        for (int i[] : arr) {
-            int a = Math.min(i[0], i[1]);
-            int b = Math.max(i[0], i[1]);
-
-            mp.put(10 * a + b, mp.getOrDefault(10 * a + b, 0) + 1);
+    public int numEquivDominoPairs(int[][] dominoes) {
+        int[] freq = new int[100];
+        for (int[] d : dominoes) {
+            if (d[0] > d[1])
+                freq[d[0] * 10 + d[1]]++;
+            else
+                freq[d[1] * 10 + d[0]]++;
         }
-
-        int pair = 0;
-        for (int i : mp.keySet()) {
-            if (mp.get(i) > 1)
-                pair += (mp.get(i) * (mp.get(i) - 1))/2;
+        int count = 0;
+        for (int f : freq) {
+            count += (f - 1) * (f) / 2;
         }
-        return pair;
+        return count;
     }
 }
