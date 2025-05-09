@@ -7,7 +7,7 @@ class Solution {
         for (int i = 2; i < n; i++) {
             if (!prime[i]) {
                 c++;
-                for (int j = i * 2; j < n; j += i) {
+                for (int j = i * 2; j < n; j = j + i) {
                     prime[j] = true;
                 }
             }
