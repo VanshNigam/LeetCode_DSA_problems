@@ -1,24 +1,31 @@
 class Solution {
-    public void help(int[] nums, int ind, List<Integer> curr, List<List<Integer>> lst) {
-        lst.add(new ArrayList<>(curr));
 
-        for (int i = ind; i < nums.length; i++) {
-            if (i > ind && nums[i] == nums[i - 1]) {
-                continue;
-            }
-            curr.add(nums[i]);
-            
-            help(nums, i + 1, curr, lst);
-            curr.remove(curr.size() - 1);
+    public void help(int[] arr, List<Integer> temp, List<List<Integer>> result, int i) {
+        if (i == arr.length) {
+            result.add(new ArrayList<>(temp));
+            System.out.println(result);
+            return;
         }
+
+        temp.add(arr[i]);
+        help(arr, temp, result, i + 1);
+         // Skip duplicates
+        while (i + 1 < arr.length && arr[i] == arr[i + 1]) {
+            i++;
+        }
+        temp.remove(temp.size() - 1);
+        help(arr, temp, result, i + 1);
     }
 
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<List<Integer>> lst = new ArrayList<>();
-        List<Integer> curr = new ArrayList<>();
         Arrays.sort(nums);
 
-        help(nums, 0, curr, lst);
-        return lst;
+        List<List<Integer>> result = new ArrayList<>();
+
+        List<Integer> temp = new ArrayList<>();
+
+        help(nums, temp, result, 0);
+
+        return result;
     }
 }
