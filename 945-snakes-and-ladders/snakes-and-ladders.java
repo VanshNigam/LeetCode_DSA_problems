@@ -1,26 +1,52 @@
 class Solution {
+    int n;
+
+    public int[] getCord(int val) {
+        int rt = (val - 1) / n;
+        int rb = (n - 1) - rt;
+
+        int col = (val - 1) % n;
+        if ((n % 2 == 1 && rb % 2 == 1) || (n % 2 != 1 && rb % 2 != 1))
+            col = (n - 1) - col;
+
+        return new int[] { rb, col };
+    }
+
     public int snakesAndLadders(int[][] board) {
-        int n = board.length;
-        int[] min_rolls = new int[n * n + 1];
-        Arrays.fill(min_rolls, -1);
+        n = board.length;
+        int step = 0;
+
         Queue<Integer> q = new LinkedList<>();
-        min_rolls[1] = 0;
-        q.offer(1);
+
+        boolean vis[][] = new boolean[n][n];
+        q.add(1);
 
         while (!q.isEmpty()) {
-            int x = q.poll();
-            for (int i = 1; i <= 6 && x + i <= n * n; i++) {
-                int t = x + i;
-                int row = (t - 1) / n;
-                int col = (t - 1) % n;
-                int v = board[n - 1 - row][(row % 2 == 1) ? (n - 1 - col) : col];
-                int y = (v > 0 ? v : t);
-                if (y == n * n) return min_rolls[x] + 1;
-                if (min_rolls[y] == -1) {
-                    min_rolls[y] = min_rolls[x] + 1;
-                    q.offer(y);
+            int l = q.size();
+            for (int i = 0; i < l; i++) {
+                int x = q.poll();
+                if (x == n * n)
+                    return step;
+
+                for (int k = 1; k <= 6; k++) {
+                    int val = x + k;
+                    if (val > n * n)
+                        break;
+                    int cordinate[] = getCord(val);
+                    int r = cordinate[0];
+                    int c = cordinate[1];
+
+                    if (vis[r][c])
+                        continue;
+                    vis[r][c] = true;
+
+                    if (board[r][c] == -1)
+                        q.add(x + k);
+                    else
+                        q.add(board[r][c]);
                 }
             }
+            step++;
         }
         return -1;
     }
