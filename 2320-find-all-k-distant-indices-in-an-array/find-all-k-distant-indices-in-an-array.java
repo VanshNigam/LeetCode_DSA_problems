@@ -1,18 +1,18 @@
 class Solution {
-    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
-        HashMap<Integer, Integer> mp = new HashMap();
-        List<Integer> ans = new ArrayList<>();
 
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == key) {
-                for (int j = Math.max(i - k, 0); j <= Math.min(nums.length - 1, i + k); j++) {
-                    if (!mp.containsKey(j))
-                        ans.add(j);
-                    mp.put(j, 1);
+    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+        List<Integer> res = new ArrayList<>();
+        int r = 0; // unjudged minimum index
+        int n = nums.length;
+        for (int j = 0; j < n; ++j) {
+            if (nums[j] == key) {
+                int l = Math.max(r, j - k);
+                r = Math.min(n - 1, j + k) + 1;
+                for (int i = l; i < r; ++i) {
+                    res.add(i);
                 }
             }
         }
-        Collections.sort(ans);
-        return ans;
+        return res;
     }
 }
