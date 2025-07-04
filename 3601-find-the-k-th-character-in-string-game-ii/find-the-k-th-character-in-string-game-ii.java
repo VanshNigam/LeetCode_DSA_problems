@@ -1,18 +1,27 @@
 class Solution {
-
     public char kthCharacter(long k, int[] operations) {
-        int ans = 0;
-        int t;
-        while (k != 1) {
-            t = 63 - Long.numberOfLeadingZeros(k);
-            if ((1L << t) == k) {
-                t--;
-            }
-            k = k - (1L << t);
-            if (operations[t] != 0) {
-                ans++;
-            }
+        int shift = 0; // total number of +1 (mod 26) operations
+        List<Long> lengths = new ArrayList<>();
+        long len = 1;
+
+        for (int op : operations) {
+            len *= 2;
+            lengths.add(len);
+            if (len >= k) break;
         }
-        return (char) ('a' + (ans % 26));
+
+        for (int i = lengths.size() - 1; i >= 0; i--) {
+            long half = lengths.get(i) / 2;
+            int op = operations[i];
+
+            if (k > half) {
+                k -= half;
+                if (op == 1) shift++;
+            }
+            // else: k remains the same
+        }
+
+        // Apply total shift from 'a'
+        return (char) ((shift % 26) + 'a');
     }
 }
