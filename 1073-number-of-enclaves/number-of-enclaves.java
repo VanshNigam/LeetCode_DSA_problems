@@ -6,70 +6,56 @@ class Solution {
         int m = mat[0].length;
 
         while (!q.isEmpty()) {
-            int len = q.size();
-            for (int i = 0; i < len; i++) {
-                int val[] = q.poll();
-                int x = val[0];
-                int y = val[1];
+            int[] val = q.poll();
+            int x = val[0], y = val[1];
 
-                for (int d[] : dirs) {
-                    int nx = x + d[0];
-                    int ny = y + d[1];
-                    if (nx < 0 || nx >= n || ny < 0 || ny >= m || vis[nx][ny] || mat[nx][ny] != 1)
-                        continue;
+            for (int[] d : dirs) {
+                int nx = x + d[0], ny = y + d[1];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < m && !vis[nx][ny] && mat[nx][ny] == 1) {
                     vis[nx][ny] = true;
-                    q.add(new int[] { nx, ny });
-                    mat[nx][ny] = 2;
+                    q.offer(new int[] { nx, ny });
                 }
             }
         }
     }
 
     public int numEnclaves(int[][] mat) {
-        int n = mat.length;
-        int m = mat[0].length;
-
-        Queue<int[]> q = new LinkedList<>();
+        int n = mat.length, m = mat[0].length;
         boolean[][] vis = new boolean[n][m];
+        Queue<int[]> q = new LinkedList<>();
 
-        // Top and bottom rows
-        for (int j = 0; j < m; j++) {
-            if (mat[0][j] == 1) {
-                q.add(new int[] { 0, j });
-                vis[0][j] = true;
-                mat[0][j] = 2;
+        // Add all border land cells to queue
+        for (int i = 0; i < n; i++) {
+            if (mat[i][0] == 1 && !vis[i][0]) {
+                vis[i][0] = true;
+                q.offer(new int[] { i, 0 });
             }
-            if (mat[n - 1][j] == 1) {
-                q.add(new int[] { n - 1, j });
-                vis[n - 1][j] = true;
-                mat[n - 1][j] = 2;
+            if (mat[i][m - 1] == 1 && !vis[i][m - 1]) {
+                vis[i][m - 1] = true;
+                q.offer(new int[] { i, m - 1 });
             }
         }
 
-        // Left and right columns
-        for (int i = 1; i < n - 1; i++) {
-            if (mat[i][0] == 1) {
-                q.add(new int[] { i, 0 });
-                vis[i][0] = true;
-                mat[i][0] = 2;
+        for (int j = 0; j < m; j++) {
+            if (mat[0][j] == 1 && !vis[0][j]) {
+                vis[0][j] = true;
+                q.offer(new int[] { 0, j });
             }
-            if (mat[i][m - 1] == 1) {
-                q.add(new int[] { i, m - 1 });
-                vis[i][m - 1] = true;
-                mat[i][m - 1] = 2;
+            if (mat[n - 1][j] == 1 && !vis[n - 1][j]) {
+                vis[n - 1][j] = true;
+                q.offer(new int[] { n - 1, j });
             }
         }
 
         bfs(mat, q, vis);
 
-        int c = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (mat[i][j] == 1) {
-                    c++;
-                }
-            }
-        }
-        return c;
+        // Count unvisited land cells = enclaves
+        int count = 0;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                if (mat[i][j] == 1 && !vis[i][j])
+                    count++;
+
+        return count;
     }
 }
