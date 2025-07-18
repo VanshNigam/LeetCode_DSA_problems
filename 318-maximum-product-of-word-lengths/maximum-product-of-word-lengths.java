@@ -2,14 +2,11 @@ class Solution {
     public boolean help(String a, String b) {
         boolean[] freq = new boolean[26];
 
-        for (char c : a.toCharArray()) {
-            freq[c - 'a'] = true;
-        }
+        for (char c : a.toCharArray())  freq[c - 'a'] = true;
 
-        for (char c : b.toCharArray()) {
+        for (char c : b.toCharArray()) 
             if (freq[c - 'a'])
                 return true;
-        }
 
         return false;
     }
