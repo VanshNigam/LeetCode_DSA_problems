@@ -4,29 +4,25 @@ class Solution {
 
         int x = 0;
         int y = 0;
-        int sum = 0;
         int max = 0;
+        int sum = 0;
 
         while (y < nums.length) {
             mp.put(nums[y], mp.getOrDefault(nums[y], 0) + 1);
             sum += nums[y];
 
-            // Shrink the window if duplicates are found
             while (mp.get(nums[y]) > 1) {
                 int pop = nums[x];
                 sum -= pop;
-                if (mp.get(pop) == 1) {
-                    mp.remove(pop);
-                } else {
+                if (mp.containsKey(pop) && mp.get(pop) > 1)
                     mp.put(pop, mp.get(pop) - 1);
-                }
+                else
+                    mp.remove(pop);
                 x++;
             }
-
             max = Math.max(max, sum);
             y++;
         }
-
         return max;
     }
 }
