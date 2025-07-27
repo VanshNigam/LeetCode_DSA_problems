@@ -1,38 +1,27 @@
 class Solution {
-
     public int countHillValley(int[] nums) {
-        int res = 0; // number of peaks and valleys
-        int n = nums.length;
-        for (int i = 1; i < n - 1; ++i) {
-            if (nums[i] == nums[i - 1]) {
-                // deduplication
-                continue;
+        int c = 0;
+        for(int i=1;i<nums.length-1;i++) {
+            if(nums[i] == nums[i-1]) continue;
+            int val = nums[i];
+            int left = i-1;
+            int right = i+1;
+            while(left >= 0 && val == nums[left]) {
+                left--;
             }
-            int left = 0; // left side possibly unequal neighboring corresponding state
-            for (int j = i - 1; j >= 0; --j) {
-                if (nums[j] > nums[i]) {
-                    left = 1;
-                    break;
-                } else if (nums[j] < nums[i]) {
-                    left = -1;
-                    break;
+            while(right < nums.length && val == nums[right]) {
+                right++;
+            }
+            
+            if(left >= 0 && right < nums.length) {
+                if(val > nums[left] && val > nums[right]) {
+                    c++;
+                } 
+                else if(val < nums[left] && val < nums[right]) {
+                    c++;
                 }
-            }
-            int right = 0; // right side possibly unequal neighboring corresponding state
-            for (int j = i + 1; j < n; ++j) {
-                if (nums[j] > nums[i]) {
-                    right = 1;
-                    break;
-                } else if (nums[j] < nums[i]) {
-                    right = -1;
-                    break;
-                }
-            }
-            if (left == right && left != 0) {
-                // at this time, index i is part of a peak or valley.
-                ++res;
             }
         }
-        return res;
+        return c;
     }
 }
