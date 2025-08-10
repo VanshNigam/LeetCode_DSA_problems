@@ -1,35 +1,29 @@
 class Solution {
-    public boolean help(int[] nums, int i, int sum, int dp[][]) {
-        if (i == nums.length || sum < 0)
+    public boolean help(int arr[], int i, int curr, int tar, Boolean dp[][]) {
+        if (i == arr.length || curr > tar)
             return false;
-        if (sum == 0)
+        if (tar == curr)
             return true;
-        if (dp[i][sum] != -1)
-            return dp[i][sum] == 1;
-        //take or not take
-        boolean take = false;
-        boolean nottake = false;
-
-        take = help(nums, i + 1, sum - nums[i], dp);
-        nottake = help(nums, i + 1, sum, dp);
-
-        boolean t = take || nottake;
-        dp[i][sum] = t == false ? 0 : 1;
-        return t;
+        
+        // Memoization check
+        if (dp[i][curr] != null)
+            return dp[i][curr];
+        
+        // Include current element OR skip it
+        boolean take = help(arr, i + 1, curr + arr[i], tar, dp);
+        boolean skip = help(arr, i + 1, curr, tar, dp);
+        
+        return dp[i][curr] = (take || skip);
     }
 
     public boolean canPartition(int[] nums) {
-        Map<Integer, Integer> mp = new HashMap<>();
-
-        int sum = 0;
+        int total = 0;
         for (int i : nums)
-            sum += i;
-
-        if (sum % 2 != 0)
+            total += i;
+        if (total % 2 != 0)
             return false;
-        int dp[][] = new int[nums.length][sum + 1];
-        for (int i[] : dp)
-            Arrays.fill(i, -1);
-        return help(nums, 0, sum / 2, dp);
+        
+        Boolean dp[][] = new Boolean[nums.length][total / 2 + 1];
+        return help(nums, 0, 0, total / 2, dp);
     }
 }
