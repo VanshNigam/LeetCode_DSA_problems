@@ -44,7 +44,6 @@ class Solution {
             Arrays.fill(dis, Integer.MAX_VALUE);
 
             fr[i] = Dijkstra(arr, i, dis);
-            System.out.println(fr[i]);
         }
 
         int ans = -1, minReach = Integer.MAX_VALUE;
