@@ -1,41 +1,44 @@
 class Solution {
+    int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+
     public int minimumEffortPath(int[][] heights) {
-        if (heights.length == 0) {
-            return 0;
-        }
-        
-        int rows = heights.length;
-        int cols = heights[0].length;
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]); // [effort, row, col]
-        minHeap.offer(new int[]{0, 0, 0});
-        int maxEffort = 0;
-        Set<String> visited = new HashSet<>();
+        int n = heights.length, m = heights[0].length;
 
-        while (!minHeap.isEmpty()) {
-            int[] current = minHeap.poll();
-            int effort = current[0];
-            int curRow = current[1];
-            int curCol = current[2];
+        int[][] diff = new int[n][m];
+        for (int[] row : diff) Arrays.fill(row, Integer.MAX_VALUE);
+        diff[0][0] = 0;
 
-            maxEffort = Math.max(maxEffort, effort);
-            if (curRow == rows - 1 && curCol == cols - 1) {
-                return maxEffort;
-            }
-            visited.add(curRow + "," + curCol);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> a.dist - b.dist);
+        pq.add(new Pair(0, 0, 0));
 
-            int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-            for (int[] direction : directions) {
-                int newRow = curRow + direction[0];
-                int newCol = curCol + direction[1];
+        while (!pq.isEmpty()) {
+            Pair curr = pq.poll();
 
-                if (0 <= newRow && newRow < rows && 0 <= newCol && newCol < cols &&
-                    !visited.contains(newRow + "," + newCol)) {
-                    int newEffort = Math.abs(heights[newRow][newCol] - heights[curRow][curCol]);
-                    minHeap.offer(new int[]{newEffort, newRow, newCol});
+            if (curr.x == n-1 && curr.y == m-1) return curr.dist; 
+
+            if (curr.dist > diff[curr.x][curr.y]) continue;
+
+            for (int[] d : dirs) {
+                int nx = curr.x + d[0], ny = curr.y + d[1];
+                if (nx>=0 && nx<n && ny>=0 && ny<m) {
+                    int new_effort = Math.max(curr.dist,
+                        Math.abs(heights[nx][ny] - heights[curr.x][curr.y]));
+                    if (new_effort < diff[nx][ny]) {
+                        diff[nx][ny] = new_effort;
+                        pq.add(new Pair(nx, ny, new_effort));
+                    }
                 }
             }
         }
-        
-        return maxEffort;        
+        return diff[n-1][m-1];
+    }
+}
+
+class Pair {
+    int x, y, dist;
+    Pair(int x, int y, int dist) {
+        this.x = x;
+        this.y = y;
+        this.dist = dist;
     }
 }
