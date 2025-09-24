@@ -2,7 +2,6 @@ class Solution {
     int max;
 
     public int Dijkstra(ArrayList<ArrayList<int[]>> arr, int curr, int dis[]) {
-
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
         pq.add(new int[] { 0, curr });
         boolean vis[] = new boolean[dis.length + 1];
@@ -27,33 +26,50 @@ class Solution {
     }
 
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
-        max = distanceThreshold;
-        ArrayList<ArrayList<int[]>> arr = new ArrayList<>();
-        for (int i = 0; i < n; i++)
-            arr.add(new ArrayList<>());
-
-        for (int i[] : edges) {
-            arr.get(i[0]).add(new int[] { i[1], i[2] });
-            arr.get(i[1]).add(new int[] { i[0], i[2] });
-        }
-        int dis[];
-
-        int fr[] = new int[n];
+        int INF = 100_000_000;
+        int[][] dist = new int[n][n];
+        
+        // Initialize distances
         for (int i = 0; i < n; i++) {
-            dis = new int[n];
-            Arrays.fill(dis, Integer.MAX_VALUE);
-
-            fr[i] = Dijkstra(arr, i, dis);
+            Arrays.fill(dist[i], INF);
+            dist[i][i] = 0;
         }
-
-        int ans = -1, minReach = Integer.MAX_VALUE;
+        
+        // Set given edges
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            dist[u][v] = w;
+            dist[v][u] = w;
+        }
+        
+        // Floyd-Warshall
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+        
+        int minReach = n; // max possible
+        int ans = -1;
+        
         for (int i = 0; i < n; i++) {
-            if (fr[i] <= minReach) { // <= ensures tie gives larger index
-                minReach = fr[i];
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] <= distanceThreshold) {
+                    count++;
+                }
+            }
+            
+            if (count <= minReach) { // <= to pick largest city in tie
+                minReach = count;
                 ans = i;
             }
         }
+        
         return ans;
-
     }
 }
