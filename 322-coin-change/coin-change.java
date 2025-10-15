@@ -2,13 +2,11 @@ class Solution {
     // int min = Integer.MAX_VALUE;
 
     public int help(int[] coins, int amount, int curr, int i, int dp[][]) {
-        if (i >= coins.length) {
+        if (i >= coins.length || curr > amount ) {
             if (curr == amount)
                 return 0;
             return Integer.MAX_VALUE - 1;
         }
-        if (curr > amount)
-            return Integer.MAX_VALUE - 1;
 
         if (dp[i][curr] != -1)
             return dp[i][curr];
