@@ -8,8 +8,7 @@ class Solution {
                 int b = s.charAt(i + 1) - '0';
                 temp += (a + b) % 10;
             }
-            s = temp; // \U0001f525 Update string for next iteration
-            System.out.println(s);
+            s = temp; 
         }
         return s.charAt(0) == s.charAt(1);
     }
