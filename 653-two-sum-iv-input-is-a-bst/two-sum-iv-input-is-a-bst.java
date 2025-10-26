@@ -1,8 +1,6 @@
 class Solution {
-
     public boolean findTarget(TreeNode root, int k) {
-        Map<Integer, Boolean> mp = new HashMap<>();
-
+        Set<Integer>mp=new HashSet<>();
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
 
@@ -11,13 +9,13 @@ class Solution {
 
             for (int i = 0; i < n; i++) {
                 TreeNode t = q.poll();
-                if (mp.containsKey(k - t.val))
+                if (mp.contains(k - t.val))
                     return true;
                 if (t.left != null)
                     q.add(t.left);
                 if (t.right != null)
                     q.add(t.right);
-                mp.put(t.val,true);
+                mp.add(t.val);
             }
         }
         return false;
