@@ -1,14 +1,10 @@
 class Solution {
     public int findFinalValue(int[] nums, int original) {
-        Map<Integer, Boolean> mp = new HashMap<>();
-
+        boolean[] dp = new boolean[1001];
         for (int i : nums)
-            mp.put(i, true);
-
-        int last = original;
-        while (mp.containsKey(last)) {
-            last *= 2;
-        }
-        return last;
+            dp[i] = true;
+        while (original < 1001 && dp[original])
+            original <<= 1;
+        return original;
     }
 }
