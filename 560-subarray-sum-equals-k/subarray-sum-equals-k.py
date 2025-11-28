@@ -8,7 +8,6 @@ class Solution:
             diff=prefix-k
             if diff in hmap:
                 res+=hmap[diff]
-            hmap[prefix]=1+hmap.get(prefix,0)
-        print(hmap)        
+            hmap[prefix]=1+hmap.get(prefix,0)        
         return res            
                 
