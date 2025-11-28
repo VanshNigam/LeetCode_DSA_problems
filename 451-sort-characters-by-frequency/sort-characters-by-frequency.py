@@ -2,7 +2,9 @@ class Solution:
     def frequencySort(self, s: str) -> str:
         cnt=Counter(s)
         res=""
-        sorted_cnt=sorted(cnt,key=cnt.get,reverse=True)
-        for x in sorted_cnt:
+        cnt_sorted=sorted(cnt,key=cnt.get,reverse=True)
+        print(cnt,cnt_sorted)
+        for x in cnt_sorted:
             res+=x*cnt[x]
-        return res
+        return res        
+        
