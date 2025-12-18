@@ -1,25 +1,28 @@
 class Solution {
     public long maxProfit(int[] prices, int[] strategy, int k) {
-        int n = prices.length, h = k >> 1;
-        long base = 0, prev = 0, nxt = 0, best = 0;
+        int n = prices.length;
 
-        for (int i = 0; i < n; i++) base += (long) strategy[i] * prices[i];
+        //normal profit
+        long profit = 0;
+        for (int j = 0; j < n; j++)
+            profit += prices[j] * strategy[j];
 
-        for (int i = 0; i < k; i++) {
-            prev += (long) strategy[i] * prices[i];
-            if (i >= h) nxt += prices[i];
+        //best profit at any window
+        long norm = 0;
+        long best = 0;
+        long updt = 0;
+        for (int j = 0; j < k; j++) {
+            norm += prices[j] * strategy[j];
+            if (j >= (k/2))
+                updt += prices[j];
         }
+        best = Math.max(best, updt - norm);
+        for (int j = k; j < n; j++) {
+            norm += (long)prices[j] * strategy[j] - (long)prices[j - k] * strategy[j - k];
+            updt += prices[j] - prices[j - k + (k / 2)];
 
-        best = Math.max(0, nxt - prev);
-
-        for (int r = k; r < n; r++) {
-            int l = r - k + 1;
-            prev += (long) strategy[r] * prices[r]
-                 - (long) strategy[l - 1] * prices[l - 1];
-            nxt += prices[r] - prices[l - 1 + h];
-            best = Math.max(best, nxt - prev);
+            best = Math.max(best, updt - norm);
         }
-
-        return base + best;
+        return best + profit;
     }
 }
