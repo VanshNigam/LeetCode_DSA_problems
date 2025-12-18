@@ -1,30 +1,19 @@
 class Solution {
-    public int count(String x) {
-        int count = 0;
-        for (char c : x.toCharArray()) {
-            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
-                count++;
-        }
-        return count;
-    }
-
     public String reverseWords(String s) {
-        String arr[] = s.split(" ");
-        int c = count(arr[0]);
-
-        s = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            s += " ";
-            int vowel = count(arr[i]);
-            if (vowel == c) {
-                String rev = "";
-                for (int j = arr[i].length() - 1; j >= 0; j--) {
-                    rev += arr[i].charAt(j);
+        String[] st = s.split(" ");
+        int[] count = new int[st.length];
+        for(int i=0; i<st.length; i++) {
+            for(char c:st[i].toCharArray()) {
+                if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    count[i]++;
                 }
-                arr[i] = rev;
             }
-            s += arr[i];
         }
-        return s;
+        for(int i=1; i<st.length; i++) {
+            if(count[i] == count[0]) {
+                st[i] = new StringBuilder(st[i]).reverse().toString();
+            }
+        }
+        return String.join(" ", st);
     }
 }
