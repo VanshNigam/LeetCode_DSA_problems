@@ -8,8 +8,6 @@ class Solution {
             set.add(nums[i]);
             i--;
         }
-
-        int idx = i + 1;
-        return (idx + 2) / 3;
+        return (n - set.size()+2) / 3;
     }
 }
