@@ -12,6 +12,7 @@ class Solution {
                     c += sec == j ? 1 : 2;
                     sum += sec == j ? sec : (sec + j);
                 }
+                if (c > 4) break;
             }
             if (c == 4)
                 ans += sum;
