@@ -1,22 +1,20 @@
 class Solution {
+    private int[][] memo;
+    public int helper(List<List<Integer>> triangle, int x, int y) {
+        if (x >= triangle.size()) return 0;
+        if (memo[x][y] != Integer.MAX_VALUE) return memo[x][y];
+
+        int temp = triangle.get(x).get(y) +
+                Math.min(helper(triangle, x + 1, y), helper(triangle, x + 1, y + 1));
+
+        memo[x][y] = temp;
+        return temp;
+    }
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
+        memo = new int[n][n];
+        for (int[] row : memo) Arrays.fill(row, Integer.MAX_VALUE);
 
-        int dp[][] = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            dp[n - 1][i] = triangle.get(n - 1).get(i);
-        }
-
-        // Bottom up
-        for (int i = n - 2; i >= 0; i--) {
-            for (int j = i; j >= 0; j--) {
-                int down = dp[i + 1][j];
-                int daig = dp[i + 1][j + 1];
-
-                dp[i][j] = Math.min(down, daig) + triangle.get(i).get(j);
-            }
-        }
-        return dp[0][0];
+        return helper(triangle, 0, 0);
     }
 }
