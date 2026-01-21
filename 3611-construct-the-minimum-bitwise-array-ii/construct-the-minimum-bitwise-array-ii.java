@@ -6,7 +6,8 @@ class Solution {
 
         for (int i = 0; i < n; i++) {
             int x = nums.get(i);
-            if(x==2)continue;
+            if (x == 2)
+                continue;
             for (int j = 1; j < 32; j++) {
                 if ((x & (1 << j)) > 0) {
                     continue;
