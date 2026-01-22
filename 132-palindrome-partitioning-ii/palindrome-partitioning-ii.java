@@ -56,9 +56,7 @@ class Solution {
         //     return dp[i];
 
         for (int i = n - 1; i >= 0; i--) {
-
             int ans = Integer.MAX_VALUE;
-
             for (int j = i + 1; j <= n; j++) {
                 int sum = Integer.MAX_VALUE;
                 if (isPalindrome(s, i, j - 1)) {
