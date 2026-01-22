@@ -1,7 +1,5 @@
 class Solution {
-    static boolean isPalindrome(String s) {
-        int i = 0, j = s.length() - 1;
-
+    static boolean isPalindrome(String s, int i, int j) {
         while (i < j) {
             if (s.charAt(i) != s.charAt(j))
                 return false;
@@ -22,7 +20,7 @@ class Solution {
 
         for (int j = i + 1; j <= n; j++) {
             int sum = Integer.MAX_VALUE;
-            if (isPalindrome(s.substring(i, j))) {
+            if (isPalindrome(s, i, j - 1)) {
                 ans = Math.min(ans, 1 + help(s, j, dp));
             }
         }
